@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-import dateFormat from 'dateformat';
+import { i18n } from 'dateformat';
 import { codeConsole } from '../extension';
 import { Locale } from '../types/Locale';
 import enLocale from './en.json';
@@ -114,11 +114,9 @@ function setupDateLocate() {
         locale('time-name.ante-meridiem'),
         locale('time-name.post-meridiem')
     ];
-    dateFormat.i18n = {
-        dayNames,
-        monthNames,
-        timeNames: [...timeNames, ...timeNames.map(v => v.toUpperCase())]
-    };
+    i18n.dayNames = dayNames;
+    i18n.monthNames = monthNames;
+    i18n.timeNames = timeNames;
 }
 
 /**

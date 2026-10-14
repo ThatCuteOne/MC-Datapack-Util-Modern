@@ -25,15 +25,33 @@
  */
 
 import * as path from 'path';
-import minimatch from 'minimatch';
+import {minimatch} from 'minimatch';
 
 export const tagFileTypes = [
+    'tag/banner_pattern',
     'tag/block',
+    'tag/block_sound_set',
+    'tag/cat_variant',
+    'tag/damage_type',
+    'tag/dialog',
+    'tag/enchantment',
     'tag/entity_type',
     'tag/fluid',
     'tag/function',
     'tag/game_event',
+    'tag/instrument',
     'tag/item',
+    'tag/item_modifier',
+    'tag/loot_table',
+    'tag/number_provider',
+    'tag/painting_variant',
+    'tag/point_of_interest_type',
+    'tag/potion',
+    'tag/predicate',
+    'tag/recipe',
+    'tag/slot_source',
+    'tag/timeline',
+    'tag/villager_trade',
     'tag/worldgen/biome',
     'tag/worldgen/configured_carver',
     'tag/worldgen/configured_decorator',
@@ -41,12 +59,16 @@ export const tagFileTypes = [
     'tag/worldgen/configured_structure_feature',
     'tag/worldgen/configured_surface_builder',
     'tag/worldgen/density_function',
+    'tag/worldgen/feature',
+    'tag/worldgen/flat_level_generator_preset',
     'tag/worldgen/noise',
     'tag/worldgen/noise_settings',
     'tag/worldgen/placed_feature',
     'tag/worldgen/processor_list',
+    'tag/worldgen/structure',
     'tag/worldgen/structure_set',
-    'tag/worldgen/template_pool'
+    'tag/worldgen/template_pool',
+    'tag/worldgen/world_preset'
 ] as const;
 
 export type FileType =
@@ -59,12 +81,64 @@ export type FileType =
     | 'predicate'
     | 'recipe'
     | 'structure'
+    | 'zombie_nautilus_variant'
+    | 'world_clock'
+    | 'wolf_variant'
+    | 'villager_trade'
+    | 'trim_pattern'
+    | 'trim_material'
+    | 'trial_spawner'
+    | 'trade_set'
+    | 'timeline'
+    | 'test_instance'
+    | 'test_environment'
+    | 'sulfur_cube_archetype'
+    | 'pig_variant'
+    | 'pig_sound_variant'
+    | 'painting_variant'
+    | 'jukebox_song'
+    | 'instrument'
+    | 'frog_variant'
+    | 'enchantment_provider'
+    | 'enchantment'
+    | 'dialog'
+    | 'decorated_pot_pattern'
+    | 'damage_type'
+    | 'cow_variant'
+    | 'cow_sound_variant'
+    | 'context_int_provider'
+    | 'context_float_provider'
+    | 'chicken_variant'
+    | 'chicken_sound_variant'
+    | 'chat_type'
+    | 'cat_variant'
+    | 'cat_sound_variant'
+    | 'block_transformer'
+    | 'banner_pattern'
+    | 'tag/banner_pattern'
     | 'tag/block'
+    | 'tag/block_sound_set'
+    | 'tag/cat_variant'
+    | 'tag/damage_type'
+    | 'tag/dialog'
+    | 'tag/enchantment'
     | 'tag/entity_type'
     | 'tag/fluid'
     | 'tag/function'
     | 'tag/game_event'
+    | 'tag/instrument'
     | 'tag/item'
+    | 'tag/item_modifier'
+    | 'tag/loot_table'
+    | 'tag/number_provider'
+    | 'tag/painting_variant'
+    | 'tag/point_of_interest_type'
+    | 'tag/potion'
+    | 'tag/predicate'
+    | 'tag/recipe'
+    | 'tag/slot_source'
+    | 'tag/timeline'
+    | 'tag/villager_trade'
     | 'tag/worldgen/biome'
     | 'tag/worldgen/configured_carver'
     | 'tag/worldgen/configured_decorator'
@@ -72,12 +146,16 @@ export type FileType =
     | 'tag/worldgen/configured_structure_feature'
     | 'tag/worldgen/configured_surface_builder'
     | 'tag/worldgen/density_function'
+    | 'tag/worldgen/feature'
+    | 'tag/worldgen/flat_level_generator_preset'
     | 'tag/worldgen/noise'
     | 'tag/worldgen/noise_settings'
     | 'tag/worldgen/placed_feature'
     | 'tag/worldgen/processor_list'
+    | 'tag/worldgen/structure'
     | 'tag/worldgen/structure_set'
     | 'tag/worldgen/template_pool'
+    | 'tag/worldgen/world_preset'
     | 'worldgen/biome'
     | 'worldgen/configured_carver'
     | 'worldgen/configured_decorator'
@@ -92,6 +170,7 @@ export type FileType =
     | 'worldgen/structure_set'
     | 'worldgen/template_pool';
 
+
 export const fileTypeFolderName: { [key in FileType]: string } = {
     // common
     advancement: 'advancement',
@@ -103,13 +182,65 @@ export const fileTypeFolderName: { [key in FileType]: string } = {
     predicate: 'predicate',
     recipe: 'recipe',
     structure: 'structure',
+    zombie_nautilus_variant: 'zombie_nautilus_variant',
+    world_clock: 'world_clock',
+    wolf_variant: 'wolf_variant',
+    villager_trade: 'villager_trade',
+    trim_pattern: 'trim_pattern',
+    trim_material: 'trim_material',
+    trial_spawner: 'trial_spawner',
+    trade_set: 'trade_set',
+    timeline: 'timeline',
+    test_instance: 'test_instance',
+    test_environment: 'test_environment',
+    sulfur_cube_archetype: 'sulfur_cube_archetype',
+    pig_variant: 'pig_variant',
+    pig_sound_variant: 'pig_sound_variant',
+    painting_variant: 'painting_variant',
+    jukebox_song: 'jukebox_song',
+    instrument: 'instrument',
+    frog_variant: 'frog_variant',
+    enchantment_provider: 'enchantment_provider',
+    enchantment: 'enchantment',
+    dialog: 'dialog',
+    decorated_pot_pattern: 'decorated_pot_pattern',
+    damage_type: 'damage_type',
+    cow_variant: 'cow_variant',
+    cow_sound_variant: 'cow_sound_variant',
+    context_int_provider: 'context_int_provider',
+    context_float_provider: 'context_float_provider',
+    chicken_variant: 'chicken_variant',
+    chicken_sound_variant: 'chicken_sound_variant',
+    chat_type: 'chat_type',
+    cat_variant: 'cat_variant',
+    cat_sound_variant: 'cat_sound_variant',
+    banner_pattern: 'banner_pattern',
+    block_transformer: 'block_transformer',
     // tag
+    'tag/banner_pattern': 'tags/banner_pattern',
     'tag/block': 'tags/block',
+    'tag/block_sound_set': 'tags/block_sound_set',
+    'tag/cat_variant': 'tags/cat_variant',
+    'tag/damage_type': 'tags/damage_type',
+    'tag/dialog': 'tags/dialog',
+    'tag/enchantment': 'tags/enchantment',
     'tag/entity_type': 'tags/entity_type',
     'tag/fluid': 'tags/fluid',
     'tag/function': 'tags/function',
     'tag/game_event': 'tags/game_event',
+    'tag/instrument': 'tags/instrument',
     'tag/item': 'tags/item',
+    'tag/item_modifier': 'tags/item_modifier',
+    'tag/loot_table': 'tags/loot_table',
+    'tag/number_provider': 'tags/number_provider',
+    'tag/painting_variant': 'tags/painting_variant',
+    'tag/point_of_interest_type': 'tags/point_of_interest_type',
+    'tag/potion': 'tags/potion',
+    'tag/predicate': 'tags/predicate',
+    'tag/recipe': 'tags/recipe',
+    'tag/slot_source': 'tags/slot_source',
+    'tag/timeline': 'tags/timeline',
+    'tag/villager_trade': 'tags/villager_trade',
     // tag/worldgen
     'tag/worldgen/biome': 'tags/worldgen/biome',
     'tag/worldgen/configured_carver': 'tags/worldgen/configured_carver',
@@ -118,12 +249,16 @@ export const fileTypeFolderName: { [key in FileType]: string } = {
     'tag/worldgen/configured_structure_feature': 'tags/worldgen/configured_structure_feature',
     'tag/worldgen/configured_surface_builder': 'tags/worldgen/configured_surface_builder',
     'tag/worldgen/density_function': 'tags/worldgen/density_function',
+    'tag/worldgen/feature': 'tags/worldgen/feature',
+    'tag/worldgen/flat_level_generator_preset': 'tags/worldgen/flat_level_generator_preset',
     'tag/worldgen/noise': 'tags/worldgen/noise',
     'tag/worldgen/noise_settings': 'tags/worldgen/noise_settings',
     'tag/worldgen/placed_feature': 'tags/worldgen/placed_feature',
     'tag/worldgen/processor_list': 'tags/worldgen/processor_list',
+    'tag/worldgen/structure': 'tags/worldgen/structure',
     'tag/worldgen/structure_set': 'tags/worldgen/structure_set',
     'tag/worldgen/template_pool': 'tags/worldgen/template_pool',
+    'tag/worldgen/world_preset': 'tags/worldgen/world_preset',
     // worldgen
     'worldgen/biome': 'worldgen/biome',
     'worldgen/configured_carver': 'worldgen/configured_carver',
@@ -151,13 +286,65 @@ export const fileTypePaths: Record<FileType, string> = {
     predicate: 'data/*/predicate/**',
     recipe: 'data/*/recipe/**',
     structure: 'data/*/structure/**',
+    zombie_nautilus_variant: 'data/*/zombie_nautilus_variant/**',
+    banner_pattern: 'data/*/banner_pattern/**',
+    world_clock: 'data/*/world_clock/**',
+    wolf_variant: 'data/*/wolf_variant/**',
+    villager_trade: 'data/*/villager_trade/**',
+    trim_pattern: 'data/*/trim_pattern/**',
+    trim_material: 'data/*/trim_material/**',
+    trial_spawner: 'data/*/trial_spawner/**',
+    trade_set: 'data/*/trade_set/**',
+    timeline: 'data/*/timeline/**',
+    test_instance: 'data/*/test_instance/**',
+    test_environment: 'data/*/test_environment/**',
+    sulfur_cube_archetype: 'data/*/sulfur_cube_archetype/**',
+    pig_variant: 'data/*/pig_variant/**',
+    pig_sound_variant: 'data/*/pig_sound_variant/**',
+    painting_variant: 'data/*/painting_variant/**',
+    jukebox_song: 'data/*/jukebox_song/**',
+    instrument: 'data/*/instrument/**',
+    frog_variant: 'data/*/frog_variant/**',
+    enchantment_provider: 'data/*/enchantment_provider/**',
+    enchantment: 'data/*/enchantment/**',
+    dialog: 'data/*/dialog/**',
+    decorated_pot_pattern: 'data/*/decorated_pot_pattern/**',
+    damage_type: 'data/*/damage_type/**',
+    cow_variant: 'data/*/cow_variant/**',
+    cow_sound_variant: 'data/*/cow_sound_variant/**',
+    context_int_provider: 'data/*/context_int_provider/**',
+    context_float_provider: 'data/*/context_float_provider/**',
+    chicken_variant: 'data/*/chicken_variant/**',
+    chicken_sound_variant: 'data/*/chicken_sound_variant/**',
+    chat_type: 'data/*/chat_type/**',
+    cat_variant: 'data/*/cat_variant/**',
+    cat_sound_variant: 'data/*/cat_sound_variant/**',
+    block_transformer: 'data/*/block_transformer/**',
     // tag
+    'tag/banner_pattern': 'data/*/tags/banner_pattern/**',
     'tag/block': 'data/*/tags/block/**',
+    'tag/block_sound_set': 'data/*/tags/block_sound_set/**',
+    'tag/cat_variant': 'data/*/tags/cat_variant/**',
+    'tag/damage_type': 'data/*/tags/damage_type/**',
+    'tag/dialog': 'data/*/tags/dialog/**',
+    'tag/enchantment': 'data/*/tags/enchantment/**',
     'tag/entity_type': 'data/*/tags/entity_type/**',
     'tag/fluid': 'data/*/tags/fluid/**',
     'tag/function': 'data/*/tags/function/**',
     'tag/game_event': 'data/*/tags/game_event/**',
+    'tag/instrument': 'data/*/tags/instrument/**',
     'tag/item': 'data/*/tags/item/**',
+    'tag/item_modifier': 'data/*/tags/item_modifier/**',
+    'tag/loot_table': 'data/*/tags/loot_table/**',
+    'tag/number_provider': 'data/*/tags/number_provider/**',
+    'tag/painting_variant': 'data/*/tags/painting_variant/**',
+    'tag/point_of_interest_type': 'data/*/tags/point_of_interest_type/**',
+    'tag/potion': 'data/*/tags/potion/**',
+    'tag/predicate': 'data/*/tags/predicate/**',
+    'tag/recipe': 'data/*/tags/recipe/**',
+    'tag/slot_source': 'data/*/tags/slot_source/**',
+    'tag/timeline': 'data/*/tags/timeline/**',
+    'tag/villager_trade': 'data/*/tags/villager_trade/**',
     // tag/worldgen
     'tag/worldgen/biome': 'data/*/tags/worldgen/biome/**',
     'tag/worldgen/configured_carver': 'data/*/tags/worldgen/configured_carver/**',
@@ -166,12 +353,16 @@ export const fileTypePaths: Record<FileType, string> = {
     'tag/worldgen/configured_structure_feature': 'data/*/tags/worldgen/configured_structure_feature/**',
     'tag/worldgen/configured_surface_builder': 'data/*/tags/worldgen/configured_surface_builder/**',
     'tag/worldgen/density_function': 'data/*/tags/worldgen/density_function/**',
+    'tag/worldgen/feature': 'data/*/tags/worldgen/feature/**',
+    'tag/worldgen/flat_level_generator_preset': 'data/*/tags/worldgen/flat_level_generator_preset/**',
     'tag/worldgen/noise': 'data/*/tags/worldgen/noise/**',
     'tag/worldgen/noise_settings': 'data/*/tags/worldgen/noise_settings/**',
     'tag/worldgen/placed_feature': 'data/*/tags/worldgen/placed_feature/**',
     'tag/worldgen/processor_list': 'data/*/tags/worldgen/processor_list/**',
+    'tag/worldgen/structure': 'data/*/tags/worldgen/structure/**',
     'tag/worldgen/structure_set': 'data/*/tags/worldgen/structure_set/**',
     'tag/worldgen/template_pool': 'data/*/tags/worldgen/template_pool/**',
+    'tag/worldgen/world_preset': 'data/*/tags/worldgen/world_preset/**',
     // worldgen
     'worldgen/biome': 'data/*/worldgen/biome/**',
     'worldgen/configured_carver': 'data/*/worldgen/configured_carver/**',
